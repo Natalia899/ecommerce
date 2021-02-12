@@ -1,8 +1,10 @@
 import express from 'express'
-import products from './data/products.js'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import colors from 'colors'
+import productRoutes from './routes/productRoutes.js'
+import {notFound, errorHandler} from './midleware/midlewareError.js'
+
 dotenv.config()
 
 connectDB()
@@ -20,15 +22,12 @@ app.use(function (req, res, next) {
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.get
-    ('/products', (req, res) => {
-        res.send(products)
-    })
+app.use('/products', productRoutes)
+app.use(notFound)
 
-app.get('/products/:id', (req, res) => {
-    const product = products.find(p => p._id === req.params.id)
-    res.send(product)
-})
+app.use(errorHandler)
+
+
 
 
 const PORT = process.env.PORT || 5000
