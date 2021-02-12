@@ -1,5 +1,9 @@
-const express = require('express')
-const products = require('./data/products')
+import express from 'express'
+import products from './data/products.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 const app = express()
 
 app.use(function (req, res, next) {
@@ -14,9 +18,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.get
-('/products', (req, res) => {
-    res.send(products)
-})
+    ('/products', (req, res) => {
+        res.send(products)
+    })
 
 app.get('/products/:id', (req, res) => {
     const product = products.find(p => p._id === req.params.id)
@@ -24,6 +28,6 @@ app.get('/products/:id', (req, res) => {
 })
 
 
+const PORT = process.env.PORT || 5000
 
-
-app.listen(5000, console.log('server is running on port 5000'))
+app.listen(PORT, console.log(`server is running in ${process.env.NODE_ENV} on port ${PORT}`))
