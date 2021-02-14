@@ -7,7 +7,7 @@ import asyncHandler from 'express-async-handler'
 router.get('/', asyncHandler (async (req, res) => {
        const products = await Product.find({})
        //throw new Error('error no non')
-       console.log(products[0]);
+      // console.log(products[0]);
        res.send(products)
     }))
 
