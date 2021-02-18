@@ -1,21 +1,25 @@
 
-import User from '../models/productModel.js'
+import User from '../models/userModel.js'
 import asyncHandler from 'express-async-handler'
+import generateToken from '../utils/generateToken.js'
 
-const authUser = asyncHandler( async (req, res) => {
+const authUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body
+    const user = await User.findOne({ email })
 
-})
-
-const getProductById = asyncHandler(async (req, res) => {
-    const product = await Product.findById(req.params.id)
-    if(product) {
-
-        res.json(product)
+    if (user  && (await user.matchPassword(password))) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            token: generateToken(user._id)
+        })
     } else {
-
-        res.status(404)
-        throw new Error ('Product not found')
+        res.status(401)
+        throw new Error('Invalid email or password')
     }
+    res.send(user)
 })
 
-export {  getProducts, getProductById }
+export { authUser }
