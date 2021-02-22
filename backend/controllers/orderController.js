@@ -16,7 +16,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
         throw new Error('No order items');
         return
     } else {
-        console.log('here????')
+       
         const order = new Order(
             {
                 orderItems,
@@ -44,7 +44,7 @@ const getOrderById = asyncHandler(async (req, res) => {
         'name email'
       )
     if(order) {
-        console.log(order)
+       
         res.send(order)
     } else {
         res.status(404)
@@ -73,7 +73,14 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
       throw new Error('Order not found')
     }
   })
+  console.log('order');
+  const getOrders = asyncHandler(async (req, res) => {
+    console.log('hereeeeeeee');
+    const orders = await Order.find({ user: req.user._id })
+    console.log(orders);
+    res.send(orders)
+  })
 
 
 
-export { addOrderItems, getOrderById, updateOrderToPaid }
+export { addOrderItems, getOrderById, updateOrderToPaid, getOrders }

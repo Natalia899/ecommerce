@@ -28,6 +28,8 @@ app.use('/products', productRoutes)
 app.use('/users', userRoutes)
 app.use('/orders', orderRoutes)
 
+app.get('/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID))
+
 
 app.use(notFound)
 
