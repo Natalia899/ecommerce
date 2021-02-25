@@ -8,6 +8,7 @@ import orderRoutes from './routes/orderRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
 import { notFound, errorHandler } from './midleware/midlewareError.js'
 import path from 'path'
+import morgan from 'morgan'
 
 
 dotenv.config()
@@ -26,6 +27,10 @@ app.use(function (req, res, next) {
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+}
 
 app.use('/products', productRoutes)
 app.use('/users', userRoutes)
