@@ -3,12 +3,6 @@ import Product from '../models/productModel.js'
 import asyncHandler from 'express-async-handler'
 
 
-// const getProducts = asyncHandler(async (req, res) => {
-
-//     const products = await Product.find({})
-//     res.send(products)
-// })
-
 const getProducts = asyncHandler(async (req, res) => {
     const pageSize = 3
     const page = Number(req.query.pageNumber) || 1
@@ -33,7 +27,7 @@ const getProducts = asyncHandler(async (req, res) => {
 const getProductById = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id)
     if (product) {
-
+        console.log(product);
         res.send(product)
     } else {
 
@@ -141,6 +135,10 @@ const createProductReview = asyncHandler(async (req, res) => {
     }
 })
 
+const getTopProducts = asyncHandler(async (req, res) => {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+    res.send(products)
+})
 
 
-export { getProductById, getProducts, deleteProduct, createProduct, updateProduct, createProductReview }
+export { getProductById, getProducts, deleteProduct, createProduct, updateProduct, createProductReview, getTopProducts }

@@ -11,7 +11,6 @@ const connectDB = async () => {
     } catch (error) {
         console.log(`Error: ${error.massage}`.red.underline.bold)
         process.exit(1)
-
     }
 }
 
